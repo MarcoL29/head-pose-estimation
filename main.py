@@ -41,6 +41,10 @@ def run():
     # Get the frame size. This will be used by the following detectors.
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+
+    # Output video writer
+    out = cv2.VideoWriter('/kaggle/working/sit1.mp4', cv2.VideoWriter_fourcc(*'XVID'), fps, (frame_width, frame_height))
 
     # Setup a face detector to detect human faces.
     face_detector = FaceDetector("assets/face_detector.onnx")
@@ -112,11 +116,10 @@ def run():
         cv2.rectangle(frame, (0, 0), (90, 30), (0, 0, 0), cv2.FILLED)
         cv2.putText(frame, f"FPS: {tm.getFPS():.0f}", (10, 20),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255))
+        
+        # Write frame to output video
+        out.write(frame)
 
-        # Show preview.
-        cv2.imshow("Preview", frame)
-        if cv2.waitKey(1) == 27:
-            break
 
 
 if __name__ == '__main__':
