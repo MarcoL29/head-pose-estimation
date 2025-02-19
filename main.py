@@ -11,6 +11,7 @@ https://github.com/yinguobing/head-pose-estimation
 from argparse import ArgumentParser
 
 import cv2
+import time
 
 from face_detection import FaceDetector
 from mark_detection import MarkDetector
@@ -57,6 +58,8 @@ def run():
 
     # Measure the performance with a tick meter.
     tm = cv2.TickMeter()
+
+    start_time = time.time()
 
     # Now, let the frames flow.
     while True:
@@ -120,7 +123,10 @@ def run():
         # Write frame to output video
         out.write(frame)
 
-
+    end_time = time.time()
+    # Calculate execution time
+    execution_time = end_time - start_time
+    print(f"Execution Time: {execution_time:.2f} seconds")
 
 if __name__ == '__main__':
     run()
